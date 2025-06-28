@@ -16,6 +16,11 @@ public class IndexController {
         return "hiragana";
     }
 
+    @GetMapping("/hiragana/start")
+    public String hiraganaStart() {
+        return "hiragana/start";
+    }
+
     @GetMapping("/katakana")
     public String katakana() {
         return "katakana";
