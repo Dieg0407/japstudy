@@ -10,8 +10,21 @@ import org.springframework.stereotype.Service;
 import com.dieg0407.japstudy.model.Card;
 
 public interface HiraganaService {
+    /**
+     * Returns a random Hiragana card, excluding the characters specified in the
+     * exclude list.
+     *
+     * @param exclude List of characters to exclude from the random selection.
+     * @return An Optional containing a random Hiragana card, or an empty Optional
+     *         if no cards are available.
+     */
     Optional<Card> random(List<String> exclude);
 
+    /**
+     * Returns all available Hiragana cards.
+     *
+     * @return A list of all Hiragana cards.
+     */
     List<Card> all();
 
     @Service

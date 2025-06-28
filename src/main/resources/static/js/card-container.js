@@ -67,6 +67,7 @@ class CardContainer extends HTMLElement {
 
         // events
         this.nextButton.addEventListener('click', async () => {
+            this.showMeaningButton.textContent = 'Show Meaning';
             this.nextButton.disabled = true;
             const alreadyShownCharacters = Array.from(this.shownCharacters).join(',');
 

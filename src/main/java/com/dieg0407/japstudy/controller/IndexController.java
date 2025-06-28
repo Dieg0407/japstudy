@@ -26,6 +26,11 @@ public class IndexController {
         return "katakana";
     }
 
+    @GetMapping("/katakana/start")
+    public String katakanaStart() {
+        return "katakana/start";
+    }
+
     @GetMapping("/kanji")
     public String kanji() {
         return "kanji";
