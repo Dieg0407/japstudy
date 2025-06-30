@@ -41,8 +41,8 @@ class CardContainer extends HTMLElement {
         this.currentCharacter = card.character;
         this.querySelector('#card-content').innerHTML = `
             <div class="card">
-                <h2>${card.character}</h2>
-                <p id="meaning" style="visibility: hidden">${card.meaning}</p>
+                <p class="card-character">${card.character}</p>
+                <p id="meaning" class="card-description" style="visibility: hidden">${card.meaning}</p>
             </div>
         `;
 
@@ -88,7 +88,7 @@ class CardContainer extends HTMLElement {
         if (next.status === 204) {
             this.querySelector('#card-content').innerHTML = `
                     <div class="card">
-                        <h2>No more characters available</h2>
+                        <p class="card-description">No more characters available</p>
                     </div>
                 `;
             this.correctButton.disabled = true;
@@ -98,8 +98,8 @@ class CardContainer extends HTMLElement {
         this.currentCharacter = nextCard.character;
         this.querySelector('#card-content').innerHTML = `
                 <div class="card">
-                    <h2>${nextCard.character}</h2>
-                    <p id="meaning" style="visibility: hidden">${nextCard.meaning}</p>
+                    <p class="card-character">${nextCard.character}</h3>
+                    <p id="meaning" class="card-description"  style="visibility: hidden">${nextCard.meaning}</p>
                 </div>
             `;
 

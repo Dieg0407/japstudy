@@ -159,11 +159,13 @@ h1 {
 }
 
 h2 {
-    color: #555;
-    font-size: 1.5em;
+    color: #ebe8e8;
+    font-size: 2em;
     text-align: center;
-    margin-top: 10px;
+    padding-bottom: 1em;
 }
+
+
 
 p {
     color: #666;
@@ -191,8 +193,9 @@ p {
 
 .menu li a {
     text-decoration: none;
-    color: #007BFF;
+    color: #a6caf1;
     font-weight: bold;
+    font-size: 1.5em;
 }
 
 #card-container {
@@ -226,6 +229,19 @@ p {
     justify-content: center;
     flex-direction: column;
     gap: 20px;
+}
+
+.card-character {
+    color: #030303;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.card-description {
+    color: #030303;
+    font-size: 0.8em;
+    text-align: center;
+    margin-top: 0.5em;
 }
 
 .control-button {
