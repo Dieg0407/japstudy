@@ -36,8 +36,30 @@ class CardContainer extends HTMLElement {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    flex-direction: column;
                     gap: 20px;
+                }
+                
+                .control-button {
+                    padding: 0.5em 1em;
+                    font-size: 1em;
+                    border: none;
+                    border-radius: 0.25em;
+                    color: white;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                }
 
+                .blue {
+                    background-color: #007bff;
+                }
+
+                .red {
+                    background-color: #dc3545;
+                }
+
+                .gray {
+                    background-color: #6c757d;
                 }
             </style>
             <div id="card-container">
@@ -45,9 +67,13 @@ class CardContainer extends HTMLElement {
                     <p>Loading...</p>
                 </div>
                 <div id="card-controls">
-                    <button id="correct-button">Correct</button>
-                    <button id="failed-button">Failed</button>
-                    <button id="show-meaning">Show Meaning</button>
+                    <div>
+                        <button id="correct-button" class="control-button blue">Correct</button>
+                        <button id="failed-button" class="control-button red">Failed</button>
+                    </div>
+                    <div>
+                        <button id="show-meaning" class="control-button gray">Show Meaning</button>
+                    </div>
                 </div>
             </div>
         `;
