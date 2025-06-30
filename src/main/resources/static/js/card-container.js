@@ -39,15 +39,17 @@ class CardContainer extends HTMLElement {
                     <p>Loading...</p>
                 </div>
                 <div id="card-controls">
-                    <button id="next-button">Next</button>
+                    <button id="correct-button">Correct</button>
+                    <button id="failed-button">Failed</button>
                     <button id="show-meaning">Show Meaning</button>
                 </div>
             </div>
         `;
 
-        this.nextButton = this.shadowRoot.querySelector('#next-button');
+        this.correctButton = this.shadowRoot.querySelector('#correct-button');
+        this.failedButton = this.shadowRoot.querySelector('#failed-button');
         this.showMeaningButton = this.shadowRoot.querySelector('#show-meaning');
-        this.shownCharacters = new Set();
+        this.excludedCharacters = new Set();
     }
 
     async connectedCallback() {
@@ -57,46 +59,18 @@ class CardContainer extends HTMLElement {
             return;
         }
         const card = await random.json();
+
+        this.currentCharacter = card.character;
         this.shadowRoot.querySelector('#card-content').innerHTML = `
             <div class="card">
                 <h2>${card.character}</h2>
                 <p id="meaning" style="display: none">${card.meaning}</p>
             </div>
         `;
-        this.shownCharacters.add(card.character);
 
         // events
-        this.nextButton.addEventListener('click', async () => {
-            this.showMeaningButton.textContent = 'Show Meaning';
-            this.nextButton.disabled = true;
-            const alreadyShownCharacters = Array.from(this.shownCharacters).join(',');
-
-            const next = await fetch(`/api/v1/${this.getAttribute('type')}/random?exclude=${alreadyShownCharacters}`);
-            if (!next.ok) {
-                console.error('Failed to fetch next card:', next.statusText);
-                this.disabled = false;
-                return;
-            }
-            if (next.status === 204) {
-                this.shadowRoot.querySelector('#card-content').innerHTML = `
-                    <div class="card">
-                        <h2>No more characters available</h2>
-                    </div>
-                `;
-                this.nextButton.disabled = true;
-                return;
-            }
-
-            const nextCard = await next.json();
-            this.shadowRoot.querySelector('#card-content').innerHTML = `
-                <div class="card">
-                    <h2>${nextCard.character}</h2>
-                    <p id="meaning" style="display: none">${nextCard.meaning}</p>
-                </div>
-            `;
-            this.shownCharacters.add(nextCard.character);
-            this.nextButton.disabled = false;
-        });
+        this.correctButton.addEventListener('click', async () => await this.clickNext(true));
+        this.failedButton.addEventListener('click', async () => await this.clickNext(false));
 
         this.showMeaningButton.addEventListener('click', () => {
             const meaningElement = this.shadowRoot.querySelector('#meaning');
@@ -111,8 +85,48 @@ class CardContainer extends HTMLElement {
     }
 
     disconnectedCallback() {
-        this.nextButton.removeEventListener('click', this.handleNextButtonClick);
+        this.correctButton.removeEventListener('click', this.handleNextButtonClick);
         this.showMeaningButton.removeEventListener('click', this.handleShowMeaningButtonClick);
+    }
+
+    /**
+     * 
+     * @param {boolean} exclude 
+     */
+    async clickNext(exclude) {
+        if (exclude) {
+            this.excludedCharacters.add(this.currentCharacter);
+        }
+        this.showMeaningButton.textContent = 'Show Meaning';
+        this.correctButton.disabled = true;
+        this.failedButton.disabled = true;
+        const alreadyShownCharacters = Array.from(this.excludedCharacters).join(',');
+        const next = await fetch(`/api/v1/${this.getAttribute('type')}/random?exclude=${alreadyShownCharacters}`);
+        if (!next.ok) {
+            console.error('Failed to fetch next card:', next.statusText);
+            this.disabled = false;
+            return;
+        }
+        if (next.status === 204) {
+            this.shadowRoot.querySelector('#card-content').innerHTML = `
+                    <div class="card">
+                        <h2>No more characters available</h2>
+                    </div>
+                `;
+            this.correctButton.disabled = true;
+            return;
+        }
+        const nextCard = await next.json();
+        this.currentCharacter = nextCard.character;
+        this.shadowRoot.querySelector('#card-content').innerHTML = `
+                <div class="card">
+                    <h2>${nextCard.character}</h2>
+                    <p id="meaning" style="display: none">${nextCard.meaning}</p>
+                </div>
+            `;
+
+        this.correctButton.disabled = false;
+        this.failedButton.disabled = false;
     }
 }
 
