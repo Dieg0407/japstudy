@@ -19,11 +19,17 @@ class CardContainer extends HTMLElement {
                 #card-content {
                     background-color: #f0f0f0;
                     border: 1px solid #ccc;
-                    padding: 20px;
-                    border-radius: 8px;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    padding: 2em;
+                    border-radius: 0.5em;
+                    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
                     text-align: center;
-                    font-size: 2.0em;
+                    font-size: 2em;
+                    width: 2em;
+                    height: 4em;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
                 }
                 #card-controls {
                     height: 20vh;
@@ -64,7 +70,7 @@ class CardContainer extends HTMLElement {
         this.shadowRoot.querySelector('#card-content').innerHTML = `
             <div class="card">
                 <h2>${card.character}</h2>
-                <p id="meaning" style="display: none">${card.meaning}</p>
+                <p id="meaning" style="visibility: hidden">${card.meaning}</p>
             </div>
         `;
 
@@ -74,11 +80,11 @@ class CardContainer extends HTMLElement {
 
         this.showMeaningButton.addEventListener('click', () => {
             const meaningElement = this.shadowRoot.querySelector('#meaning');
-            if (meaningElement.style.display === 'none') {
-                meaningElement.style.display = 'block';
+            if (meaningElement.style.visibility === 'hidden') {
+                meaningElement.style.visibility = 'visible';
                 this.showMeaningButton.textContent = 'Hide Meaning';
             } else {
-                meaningElement.style.display = 'none';
+                meaningElement.style.visibility = 'hidden';
                 this.showMeaningButton.textContent = 'Show Meaning';
             }
         });
@@ -121,7 +127,7 @@ class CardContainer extends HTMLElement {
         this.shadowRoot.querySelector('#card-content').innerHTML = `
                 <div class="card">
                     <h2>${nextCard.character}</h2>
-                    <p id="meaning" style="display: none">${nextCard.meaning}</p>
+                    <p id="meaning" style="visibility: hidden">${nextCard.meaning}</p>
                 </div>
             `;
 
