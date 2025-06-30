@@ -7,61 +7,7 @@ class CardContainer extends HTMLElement {
             throw new Error('Invalid type attribute. Expected "hiragana" or "katakana".');
         }
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.innerHTML = `
-            <style>
-                #card-container {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                }
-                #card-content {
-                    background-color: #f0f0f0;
-                    border: 1px solid #ccc;
-                    padding: 2em;
-                    border-radius: 0.5em;
-                    box-shadow: 0 0.125em 0.25em rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                    font-size: 2em;
-                    width: 2em;
-                    height: 4em;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                }
-                #card-controls {
-                    height: 20vh;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    flex-direction: column;
-                    gap: 20px;
-                }
-                
-                .control-button {
-                    padding: 0.5em 1em;
-                    font-size: 1em;
-                    border: none;
-                    border-radius: 0.25em;
-                    color: white;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                }
-
-                .blue {
-                    background-color: #007bff;
-                }
-
-                .red {
-                    background-color: #dc3545;
-                }
-
-                .gray {
-                    background-color: #6c757d;
-                }
-            </style>
+        this.innerHTML = `
             <div id="card-container">
                 <div id="card-content">
                     <p>Loading...</p>
@@ -78,9 +24,9 @@ class CardContainer extends HTMLElement {
             </div>
         `;
 
-        this.correctButton = this.shadowRoot.querySelector('#correct-button');
-        this.failedButton = this.shadowRoot.querySelector('#failed-button');
-        this.showMeaningButton = this.shadowRoot.querySelector('#show-meaning');
+        this.correctButton = this.querySelector('#correct-button');
+        this.failedButton = this.querySelector('#failed-button');
+        this.showMeaningButton = this.querySelector('#show-meaning');
         this.excludedCharacters = new Set();
     }
 
@@ -93,7 +39,7 @@ class CardContainer extends HTMLElement {
         const card = await random.json();
 
         this.currentCharacter = card.character;
-        this.shadowRoot.querySelector('#card-content').innerHTML = `
+        this.querySelector('#card-content').innerHTML = `
             <div class="card">
                 <h2>${card.character}</h2>
                 <p id="meaning" style="visibility: hidden">${card.meaning}</p>
@@ -105,7 +51,7 @@ class CardContainer extends HTMLElement {
         this.failedButton.addEventListener('click', async () => await this.clickNext(false));
 
         this.showMeaningButton.addEventListener('click', () => {
-            const meaningElement = this.shadowRoot.querySelector('#meaning');
+            const meaningElement = this.querySelector('#meaning');
             if (meaningElement.style.visibility === 'hidden') {
                 meaningElement.style.visibility = 'visible';
                 this.showMeaningButton.textContent = 'Hide Meaning';
@@ -140,7 +86,7 @@ class CardContainer extends HTMLElement {
             return;
         }
         if (next.status === 204) {
-            this.shadowRoot.querySelector('#card-content').innerHTML = `
+            this.querySelector('#card-content').innerHTML = `
                     <div class="card">
                         <h2>No more characters available</h2>
                     </div>
@@ -150,7 +96,7 @@ class CardContainer extends HTMLElement {
         }
         const nextCard = await next.json();
         this.currentCharacter = nextCard.character;
-        this.shadowRoot.querySelector('#card-content').innerHTML = `
+        this.querySelector('#card-content').innerHTML = `
                 <div class="card">
                     <h2>${nextCard.character}</h2>
                     <p id="meaning" style="visibility: hidden">${nextCard.meaning}</p>
