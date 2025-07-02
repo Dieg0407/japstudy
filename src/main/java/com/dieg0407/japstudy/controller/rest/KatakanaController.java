@@ -1,4 +1,4 @@
-package com.dieg0407.japstudy.controller;
+package com.dieg0407.japstudy.controller.rest;
 
 import java.util.List;
 import java.util.Optional;

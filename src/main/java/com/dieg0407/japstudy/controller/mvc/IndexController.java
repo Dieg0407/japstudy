@@ -1,4 +1,4 @@
-package com.dieg0407.japstudy.controller;
+package com.dieg0407.japstudy.controller.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +21,11 @@ public class IndexController {
         return "hiragana/start";
     }
 
+    @GetMapping("/hiragana/table")
+    public String hiraganaTable() {
+        return "hiragana/table";
+    }
+
     @GetMapping("/katakana")
     public String katakana() {
         return "katakana";
@@ -29,6 +34,11 @@ public class IndexController {
     @GetMapping("/katakana/start")
     public String katakanaStart() {
         return "katakana/start";
+    }
+
+    @GetMapping("/katakana/table")
+    public String katakanaTable() {
+        return "katakana/table";
     }
 
     @GetMapping("/kanji")
